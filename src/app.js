@@ -18,6 +18,10 @@ app.use(cors());
 const userRoutes = require('./routes/userRoutes');
 app.use('/user', userRoutes);
 
+app.get('/', (req, res) => {  // Defines a route for GET requests to '/'
+    res.send("something");     // Sends the string "something" as the response
+});
+
 // const postRoutes = require('./routes/postRoutes');
 // app.use('/post', postRoutes);
 
