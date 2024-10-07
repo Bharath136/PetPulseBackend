@@ -1,42 +1,54 @@
-const connectDB = require('./database/connection');
 const express = require('express');
 const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const connectDB = require('./database/connection'); // Ensure this points to the correct path
 
+// Load environment variables
 dotenv.config();
 
+// Create Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(bodyParser.json());
-app.use(cors());
+app.use(express.json()); // Use built-in body-parser for JSON requests
+app.use(cors()); // Enable CORS
 
 
-// Import Routes
-const userRoutes = require('./routes/userRoutes');
-app.use('/user', userRoutes);
-
-app.get('/', (req, res) => {  // Defines a route for GET requests to '/'
-    res.send("something");     // Sends the string "something" as the response
-});
-
-// const postRoutes = require('./routes/postRoutes');
-// app.use('/post', postRoutes);
-
-// const commentRoutes = require('./routes/commentRoutes');
-// app.use('/comments', commentRoutes);
-
-// const followRoutes = require('./routes/followRoutes');
-// app.use('/follow-user', followRoutes);
-
-
-// Connect to MongoDB
-connectDB();
 
 
 // Use Routes
+const userRoutes = require('./routes/userRoutes');
+app.use('/user', userRoutes);
+
+const petRoutes = require('./routes/petRoutes');
+app.use('/pets', petRoutes);
+
+const serviceProviderRoutes = require('./routes/serviceProviderRoutes');
+app.use('/service-provider', serviceProviderRoutes);
+
+
+
+// Test Route
+app.get('/', (req, res) => {
+    res.send("Welcome to PetPulse API");
+});
+
+// Connect to MongoDB
+connectDB()
+
+
+// 404 Route Handler for undefined routes
+app.use((req, res) => {
+    res.status(404).send("Route not found");
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke!");
+});
+
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Socket.IO server running on http://localhost:${PORT}`);
 });
