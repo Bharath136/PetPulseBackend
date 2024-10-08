@@ -35,7 +35,7 @@ exports.getServiceProviderById = async (req, res) => {
 // Update a service provider by ID
 exports.updateServiceProvider = async (req, res) => {
     try {
-        const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!serviceProvider) return res.status(404).json({ message: 'Service Provider not found' });
         res.status(200).json(serviceProvider);
     } catch (error) {
@@ -48,7 +48,7 @@ exports.deleteServiceProvider = async (req, res) => {
     try {
         const serviceProvider = await ServiceProvider.findByIdAndDelete(req.params.id);
         if (!serviceProvider) return res.status(404).json({ message: 'Service Provider not found' });
-        res.status(200).json({ message: 'Service Provider deleted' });
+        res.status(200).json({ message: 'Service Provider deleted successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -60,8 +60,10 @@ exports.bookSlot = async (req, res) => {
         const serviceProvider = await ServiceProvider.findById(req.params.id);
         if (!serviceProvider) return res.status(404).json({ message: 'Service Provider not found' });
 
+        const { date, time } = req.body;
         const slotIndex = serviceProvider.availableSlots.findIndex(slot =>
-            slot.date.toISOString() === req.body.date && slot.time === req.body.time);
+            slot.date.toISOString() === new Date(date).toISOString() && slot.time === time
+        );
 
         if (slotIndex === -1 || serviceProvider.availableSlots[slotIndex].isBooked) {
             return res.status(400).json({ message: 'Slot not available or already booked' });
@@ -94,14 +96,12 @@ exports.addReview = async (req, res) => {
         const serviceProvider = await ServiceProvider.findById(req.params.id);
         if (!serviceProvider) return res.status(404).json({ message: 'Service Provider not found' });
 
-        const review = {
-            user: req.body.user,
-            rating: req.body.rating,
-            comment: req.body.comment
-        };
+        const { user, rating, comment } = req.body;
+        const review = { user, rating, comment };
 
         serviceProvider.reviews.push(review);
-        serviceProvider.averageRating = (serviceProvider.reviews.reduce((acc, review) => acc + review.rating, 0) / serviceProvider.reviews.length);
+        serviceProvider.averageRating = (serviceProvider.reviews.reduce((acc, review) => acc + review.rating, 0) / serviceProvider.reviews.length).toFixed(1);
+
         await serviceProvider.save();
 
         res.status(201).json({ message: 'Review added successfully', reviews: serviceProvider.reviews });
