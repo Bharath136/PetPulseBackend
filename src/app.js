@@ -34,6 +34,11 @@ app.get('/', (req, res) => {
     res.send("Welcome to PetPulse API");
 });
 
+// Test Route
+app.get('/hellow-get', (req, res) => {
+    res.send("Welcome to PetPulse API");
+});
+
 // Connect to MongoDB
 connectDB()
 
