@@ -1,4 +1,4 @@
-const Pet = require('../models/petModel'); // Import the Pet model
+const Pet = require('../models/PetModels/Pet');
 
 // Create a new pet
 exports.createPet = async (req, res) => {
@@ -7,7 +7,7 @@ exports.createPet = async (req, res) => {
         const savedPet = await newPet.save();
         res.status(201).json(savedPet);
     } catch (error) {
-        res.status(400).json({ message: 'Error creating pet', error });
+        res.status(400).json({ message: 'Error creating pet', error: error.message });
     }
 };
 
@@ -18,7 +18,7 @@ exports.getPetById = async (req, res) => {
         if (!pet) return res.status(404).json({ message: 'Pet not found' });
         res.status(200).json(pet);
     } catch (error) {
-        res.status(400).json({ message: 'Error retrieving pet', error });
+        res.status(400).json({ message: 'Error retrieving pet', error: error.message });
     }
 };
 
@@ -28,7 +28,7 @@ exports.getAllPets = async (req, res) => {
         const pets = await Pet.find().populate('owner');
         res.status(200).json(pets);
     } catch (error) {
-        res.status(400).json({ message: 'Error retrieving pets', error });
+        res.status(400).json({ message: 'Error retrieving pets', error: error.message });
     }
 };
 
@@ -39,7 +39,7 @@ exports.updatePet = async (req, res) => {
         if (!updatedPet) return res.status(404).json({ message: 'Pet not found' });
         res.status(200).json(updatedPet);
     } catch (error) {
-        res.status(400).json({ message: 'Error updating pet', error });
+        res.status(400).json({ message: 'Error updating pet', error: error.message });
     }
 };
 
@@ -50,7 +50,7 @@ exports.deletePet = async (req, res) => {
         if (!deletedPet) return res.status(404).json({ message: 'Pet not found' });
         res.status(200).json({ message: 'Pet deleted successfully' });
     } catch (error) {
-        res.status(400).json({ message: 'Error deleting pet', error });
+        res.status(400).json({ message: 'Error deleting pet', error: error.message });
     }
 };
 
@@ -64,7 +64,7 @@ exports.addMedicalHistory = async (req, res) => {
         const updatedPet = await pet.save();
         res.status(200).json(updatedPet);
     } catch (error) {
-        res.status(400).json({ message: 'Error adding medical history', error });
+        res.status(400).json({ message: 'Error adding medical history', error: error.message });
     }
 };
 
@@ -78,6 +78,6 @@ exports.updateHealthMetrics = async (req, res) => {
         const updatedPet = await pet.save();
         res.status(200).json(updatedPet);
     } catch (error) {
-        res.status(400).json({ message: 'Error updating health metrics', error });
+        res.status(400).json({ message: 'Error updating health metrics', error: error.message });
     }
 };

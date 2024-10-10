@@ -1,4 +1,4 @@
-const ServiceProvider = require('../models/serviceProvider');
+const ServiceProvider = require('../models/ServiceProviderModels/ServiceProviderModel');
 
 // Create a new service provider
 exports.createServiceProvider = async (req, res) => {
