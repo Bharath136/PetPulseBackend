@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Import the medical history and health metrics schemas
-const HealthMetrics = require('./HealthMatrics');
+const HealthMetrics = require('./HealthMetrics');
 const MedicalHistory = require('./MedicalHistory');
 
 
