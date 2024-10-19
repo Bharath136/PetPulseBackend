@@ -23,7 +23,7 @@ const ServiceProviderSchema = new mongoose.Schema({
             endTime: { type: String, required: true },
         },
     ],
-    reviews: [ServiceProviderReview.schema],
+    // reviews: [ServiceProviderReview.schema],
 }, { timestamps: true });
 
 module.exports = mongoose.model('ServiceProvider', ServiceProviderSchema);

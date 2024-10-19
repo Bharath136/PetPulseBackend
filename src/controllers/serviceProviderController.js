@@ -21,6 +21,31 @@ exports.getAllServiceProviders = async (req, res) => {
     }
 };
 
+// Get all service providers
+// exports.getServices = async (req, res) => {
+//     const { serviceType } = req.params
+//     try {
+//         const serviceProviders = await ServiceProvider.find({serviceType});
+//         res.status(200).json(serviceProviders);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+exports.getServices = async (req, res) => {
+    const { serviceType } = req.params;
+
+    try {
+        const serviceProviders = await ServiceProvider.find({
+            serviceType: { $regex: new RegExp(serviceType, 'i') } // Case-insensitive match
+        });
+        res.status(200).json(serviceProviders);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 // Get a service provider by ID
 exports.getServiceProviderById = async (req, res) => {
     try {

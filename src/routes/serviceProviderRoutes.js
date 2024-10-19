@@ -5,6 +5,7 @@ const serviceProviderController = require('../controllers/serviceProviderControl
 // Routes for CRUD operations
 router.post('/add-service', serviceProviderController.createServiceProvider);
 router.get('/', serviceProviderController.getAllServiceProviders);
+router.get('/:serviceType', serviceProviderController.getServices);
 router.get('/:id', serviceProviderController.getServiceProviderById);
 router.put('/:id', serviceProviderController.updateServiceProvider);
 router.delete('/:id', serviceProviderController.deleteServiceProvider);
