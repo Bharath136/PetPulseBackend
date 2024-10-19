@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profilePicture: { type: String, default: 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg' },
+    profile: { type: String, default: 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg' },
     role: { type: String, enum: ['pet_owner', 'veterinarian', 'pet_service_provider'], required: true },
     socialLogin: {
         googleId: { type: String },

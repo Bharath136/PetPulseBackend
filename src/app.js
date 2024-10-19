@@ -27,6 +27,9 @@ app.use('/pets', petRoutes);
 const serviceProviderRoutes = require('./routes/serviceProviderRoutes');
 app.use('/service-provider', serviceProviderRoutes);
 
+const appointmentRoutes = require('./routes/appointmentRoutes');
+app.use('/appointments', appointmentRoutes);
+
 
 
 // Test Route
